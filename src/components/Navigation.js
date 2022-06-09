@@ -32,7 +32,7 @@ const Navigation = () => {
   ));
 
   return (
-    <nav className="sticky top-0 bg-black/50 z-10">
+    <nav className="sticky top-0 bg-black/50 z-10 -mb-16">
       <Container size="xl" className="flex items-center justify-between h-16">
         <div className="flex items-center space-x-2 text-white">
           <h1>Deli</h1>
