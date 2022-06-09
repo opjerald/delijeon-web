@@ -1,5 +1,8 @@
 import Head from "next/head";
-import "../../styles/globals.css";
+import { MantineProvider } from "@mantine/core";
+import Navigation from "../components/Navigation";
+
+import "../assets/css/index.css";
 
 const App = ({ Component, pageProps }) => {
   return (
@@ -7,7 +10,15 @@ const App = ({ Component, pageProps }) => {
       <Head>
         <title>Delijeon</title>
       </Head>
-      <Component {...pageProps} />
+      <MantineProvider
+        emotionOptions={{ key: "mantine", prepend: false }}
+        theme={{
+          primaryColor: "yellow",
+        }}
+      >
+        <Navigation />
+        <Component {...pageProps} />
+      </MantineProvider>
     </>
   );
 };
