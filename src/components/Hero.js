@@ -1,36 +1,49 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "@popmotion/popcorn";
 import Image from "next/image";
 
 const Hero = ({ slider }) => {
   const [[page, direction], setPage] = useState([0, 0]);
+  const timeout = useRef(null);
 
   const imageIndex = wrap(0, slider.length, page);
 
+  useEffect(() => {
+    const paginate = (newDirection) => {
+      setPage([page + newDirection, newDirection]);
+    };
+
+    timeout.current = setTimeout(() => paginate(1), 10000);
+
+    return () => {
+      if (timeout.current) {
+        clearTimeout(timeout.current);
+      }
+    };
+  }, [[page, direction]]);
+
   const paginate = (newDirection) => {
+    if (timeout.current) {
+      clearTimeout(timeout.current);
+    }
+
     setPage([page + newDirection, newDirection]);
   };
 
   const variants = {
-    enter: (direction) => {
-      return {
-        x: direction > 0 ? 1000 : -1000,
-        opacity: 0,
-      };
+    enter: {
+      opacity: 0,
     },
     center: {
       zIndex: 1,
-      x: 0,
       opacity: 1,
     },
-    exit: (direction) => {
-      return {
-        zIndex: 0,
-        x: direction < 0 ? 1000 : -1000,
-        opacity: 0,
-      };
+    exit: {
+      zIndex: 0,
+      opacity: 0,
     },
+    title: {},
   };
 
   return (
@@ -49,13 +62,13 @@ const Hero = ({ slider }) => {
                   exit="exit"
                   transition={{
                     x: {
-                      type: "spring",
-                      stiffness: 300,
+                      type: "just",
+                      stiffness: 30,
                       damping: 30,
                     },
                     opacity: { duration: 0.2 },
                   }}
-                  className="absolute top-0 left-0 w-screen h-screen"
+                  className={`absolute top-0 left-0 w-screen h-screen`}
                 >
                   <Image
                     src={slider[imageIndex].image}
@@ -77,17 +90,30 @@ const Hero = ({ slider }) => {
                   </motion.div>
                   <div className="flex flex-col items-center text-center space-y-5 text-white">
                     <motion.h1
-                      key={page}
-                      initial={{ y: -30 }}
-                      animate={{ y: 0 }}
-                      exit={{ y: 30 }}
-                      transition={{ duration: 1 }}
                       className="text-[3rem] font-bold"
+                      key={imageIndex}
+                      initial={{ translateY: -30, opacity: 0 }}
+                      animate={{ translateY: 0, opacity: 1 }}
+                      transition={{ duration: 0.5, delay: 0.3 }}
                     >
                       {slider[imageIndex].title}
                     </motion.h1>
-                    <p className="text-lg max-w-2xl">{slider[imageIndex].description}</p>
-                    <div className="flex items-center gap-5">
+                    <motion.p
+                      className="text-lg max-w-2xl"
+                      key={imageIndex + 1}
+                      initial={{ translateY: 30, opacity: 0 }}
+                      animate={{ translateY: 0, opacity: 1 }}
+                      transition={{ duration: 0.5, delay: 0.8 }}
+                    >
+                      {slider[imageIndex].description}
+                    </motion.p>
+                    <motion.div
+                      className="flex items-center gap-5"
+                      key={imageIndex + 2}
+                      initial={{ translateY: 30, opacity: 0 }}
+                      animate={{ translateY: 0, opacity: 1 }}
+                      transition={{ duration: 0.5, delay: 1 }}
+                    >
                       <button
                         type="button"
                         className="px-7 py-3 border-2 text-xs border-yellow-600 rounded-full uppercase font-bold tracking-wide hover:bg-yellow-600 transition-all duration-300 ease-in-out"
@@ -100,7 +126,7 @@ const Hero = ({ slider }) => {
                       >
                         shop now
                       </button>
-                    </div>
+                    </motion.div>
                   </div>
                   <motion.div
                     whileHover={{ scale: 1.2, transition: { duration: 0.5 } }}
