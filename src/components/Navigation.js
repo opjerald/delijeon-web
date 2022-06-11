@@ -24,7 +24,7 @@ const Navigation = () => {
   const menulink = menus.map((menu) => (
     <Link href={menu.path} key={menu.name}>
       <UnstyledButton component="a">
-        <p className=" text-white font-semibold text-[15px] cursor-pointer transition-all duration-300 ease-in-out hover:text-yellow-500">
+        <p className=" text-white font-semibold text-[15px] cursor-pointer transition-all duration-300 ease-in-out hover:text-primary">
           {menu.name}
         </p>
       </UnstyledButton>
@@ -39,7 +39,7 @@ const Navigation = () => {
         </div>
         <div className="flex items-center space-x-6">
           {menulink}
-          <Button radius="xl">Shop now</Button>
+          <button className="btn btn-primary px-7 py-3 text-xs rounded-full">Shop now</button>
         </div>
       </Container>
     </nav>

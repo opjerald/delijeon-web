@@ -66,7 +66,7 @@ const Hero = ({ slider }) => {
                       stiffness: 30,
                       damping: 30,
                     },
-                    opacity: { duration: 0.2 },
+                    opacity: { duration: 1 },
                   }}
                   className={`absolute top-0 left-0 w-screen h-screen`}
                 >
@@ -116,15 +116,16 @@ const Hero = ({ slider }) => {
                     >
                       <button
                         type="button"
-                        className="px-7 py-3 border-2 text-xs border-yellow-600 rounded-full uppercase font-bold tracking-wide hover:bg-yellow-600 transition-all duration-300 ease-in-out"
+                        className="px-7 py-3 btn btn-outline btn-primary border-2 rounded-full hover:bg-primary transition-all duration-300 ease-in-out"
                       >
-                        our menu
+                        <p className="text-xs text-white font-bold tracking-wide uppercase">our menu</p>
                       </button>
                       <button
                         type="button"
-                        className="px-7 py-3 border-2 text-xs border-yellow-600 rounded-full uppercase font-bold tracking-wide hover:bg-yellow-600 transition-all duration-300 ease-in-out"
+                        className="px-7 py-3 btn btn-outline btn-primary border-2 gap-2 rounded-full hover:bg-primary transition-all duration-300 ease-in-out"
                       >
-                        shop now
+                        <i className="bi bi-cart text-md text-white"></i>
+                        <p className="text-xs text-white font-bold tracking-wide uppercase">shop now</p>
                       </button>
                     </motion.div>
                   </div>
