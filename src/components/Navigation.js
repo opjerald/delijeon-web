@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { Anchor, Button, Container, UnstyledButton } from "@mantine/core";
+import { Container, UnstyledButton } from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { variants } from "../assets/data/variants/_navigation";
 
 const Navigation = () => {
   const header = useRef(null);
-  const topBar = useRef(null);
+  const [hideContact, setHideContact] = useState(true);
 
   const onScroll = (el, listener) => {
     el.addEventListener("scroll", listener);
@@ -14,14 +16,10 @@ const Navigation = () => {
     if (header.current) {
       if (window.scrollY > 100) {
         header.current.classList.add("header-scrolled");
-        if (topBar.current) {
-          topBar.current.classList.add("topbar-scrolled");
-        }
+        setHideContact(false);
       } else {
         header.current.classList.remove("header-scrolled");
-        if (topBar.current) {
-          topBar.current.classList.remove("topbar-scrolled");
-        }
+        setHideContact(true);
       }
     }
   };
@@ -53,7 +51,7 @@ const Navigation = () => {
   const menulink = menus.map((menu) => (
     <Link href={menu.path} key={menu.name}>
       <UnstyledButton component="a">
-        <p className=" text-white font-semibold text-[15px] cursor-pointer transition-all duration-300 ease-in-out hover:text-primary">
+        <p className=" text-base-100 text-[15px] cursor-pointer transition-all duration-300 ease-in-out hover:text-primary">
           {menu.name}
         </p>
       </UnstyledButton>
@@ -62,36 +60,33 @@ const Navigation = () => {
 
   return (
     <>
-      <section
-        ref={topBar}
-        className="z-[996] sticky flex items-center text-base-100 h-[50px] transition-all duration-500"
-      >
-        <Container size="xl" className="w-full flex items-center space-x-5">
-          <div className="flex items-center gap-2">
-            <i className="bi bi-phone text-lg text-primary"></i>
-            <span className="text-base-100 text-md">+63 910 9278 273</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <i className="bi bi-clock text-lg text-primary"></i>
-            <span className="text-base-100 text-md">Mon-Sat: 11:00 AM - 23:00 PM</span>
-          </div>
-        </Container>
-      </section>
-      <nav ref={header} className="sticky z-[997] top-0 transition-all duration-500">
+      <nav ref={header} className=" z-[997] fixed w-full top-0 transition-all duration-500">
         <Container size="xl">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-2 text-white">
+            <div className="flex items-center space-x-4 text-white">
               <h1 className="text-4xl cursor-pointer m-0 font-normal leading-[1] tracking-[3px] title">Deli Jeon</h1>
+              <motion.div
+                key={hideContact}
+                variants={variants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                className="flex items-center gap-3"
+              >
+                <div className={`items-center gap-2 ${hideContact ? "hidden" : "flex"}`}>
+                  <i className="bi bi-phone text-lg text-primary"></i>
+                  <span className="text-base-100 text-sm">+63 910 9278 273</span>
+                </div>
+                <div className={`items-center gap-2 ${hideContact ? "hidden" : "flex"}`}>
+                  <i className="bi bi-clock text-lg text-primary"></i>
+                  <span className="text-base-100 text-sm">Mon-Sat: 11:00 AM - 23:00 PM</span>
+                </div>
+              </motion.div>
             </div>
             <div className="flex items-center space-x-6">
               {menulink}
-              <button
-                className="btn btn-primary px-7 py-3 text-xs rounded-full"
-                onClick={() => {
-                  console.log(header.current.classList, topBar.current.classList);
-                }}
-              >
-                Shop now
+              <button className="btn btn-primary px-7 h-2 rounded-full">
+                <p className="text-base-100 text-xs">Shop now</p>
               </button>
             </div>
           </div>

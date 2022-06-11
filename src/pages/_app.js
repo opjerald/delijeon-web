@@ -16,10 +16,8 @@ const App = ({ Component, pageProps }) => {
           primaryColor: "yellow",
         }}
       >
-        <div className="relative h-screen">
-          <Navigation />
-          <Component {...pageProps} />
-        </div>
+        <Navigation />
+        <Component {...pageProps} />
       </MantineProvider>
     </>
   );

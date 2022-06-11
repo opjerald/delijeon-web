@@ -2,9 +2,10 @@ import Hero from "../components/Hero";
 
 const Home = () => {
   return (
-    <div className="absolute top-0 left-0 w-full">
+    <>
       <Hero />
-    </div>
+      <div className="h-[1600px]"></div>
+    </>
   );
 };
 
