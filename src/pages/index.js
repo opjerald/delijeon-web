@@ -1,11 +1,10 @@
 import Hero from "../components/Hero";
-import { slider } from "../assets/data/ImageSlider";
 
 const Home = () => {
   return (
-    <>
-      <Hero slider={slider} />
-    </>
+    <div className="absolute top-0 left-0 w-full">
+      <Hero />
+    </div>
   );
 };
 

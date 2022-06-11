@@ -25,3 +25,12 @@ body {
 .title {
   font-family: "Allura", cursive;
 }
+
+.topbar-scrolled {
+  top: -50px;
+}
+
+.header-scrolled {
+  top: 0;
+  background: rgba(26, 24, 22, 0.85);
+}
