@@ -1,52 +1,28 @@
 import Link from "next/link";
 import { Container, UnstyledButton } from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useViewportScroll } from "framer-motion";
 import { variants } from "../assets/data/variants/_navigation";
+import { menus } from "../assets/data/other/menu";
 
-const Navigation = () => {
+const Navigation = ({ setOpen }) => {
   const header = useRef(null);
   const [hideContact, setHideContact] = useState(true);
+  const { scrollY } = useViewportScroll();
 
-  const onScroll = (el, listener) => {
-    el.addEventListener("scroll", listener);
-  };
+  useEffect(() => {
+    return scrollY.onChange((latest) => {
+      if (latest < 0) return;
 
-  const headerScrolled = () => {
-    if (header.current) {
-      if (window.scrollY > 100) {
+      if (latest >= 100) {
         header.current.classList.add("header-scrolled");
         setHideContact(false);
       } else {
         header.current.classList.remove("header-scrolled");
         setHideContact(true);
       }
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("load", headerScrolled);
-    onScroll(document, headerScrolled);
-  }, []);
-
-  const menus = [
-    {
-      name: "Home",
-      path: { pathname: "/home" },
-    },
-    {
-      name: "About",
-      path: { pathname: "/home" },
-    },
-    {
-      name: "Pastries",
-      path: { pathname: "/home" },
-    },
-    {
-      name: "Testimonials",
-      path: { pathname: "/home" },
-    },
-  ];
+    });
+  }, [scrollY]);
 
   const menulink = menus.map((menu) => (
     <Link href={menu.path} key={menu.name}>
@@ -94,7 +70,12 @@ const Navigation = () => {
                 <p className="text-base-100 text-xs">Shop now</p>
               </button>
             </div>
-            <button className="btn btn-ghost btn-primary rounded-full hidden md:block">
+            <button
+              className="btn btn-ghost btn-primary rounded-full hidden md:block"
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
               <i className="bi bi-list text-2xl text-base-100"></i>
             </button>
           </div>

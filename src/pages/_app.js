@@ -1,10 +1,13 @@
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
+import { useState } from "react";
 import Navigation from "../components/Navigation";
+import Drawer from "../components/Drawer";
 
 import "../assets/css/index.css";
 
 const App = ({ Component, pageProps }) => {
+  const [open, setOpen] = useState(false);
   return (
     <>
       <Head>
@@ -16,7 +19,8 @@ const App = ({ Component, pageProps }) => {
           primaryColor: "yellow",
         }}
       >
-        <Navigation />
+        <Drawer setOpen={setOpen} open={open} />
+        <Navigation setOpen={setOpen} />
         <Component {...pageProps} />
       </MantineProvider>
     </>
